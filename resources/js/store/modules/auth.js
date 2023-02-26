@@ -2,7 +2,9 @@ import axios from "axios";
 
 const state = {
     userDetails: {},
-    isLoggedIn: true
+    isLoggedIn: true,
+    errors: [],
+    invalidCredentials: ''
 }
 
 const actions = {
@@ -40,7 +42,12 @@ const actions = {
                         window.location.replace('/dashboard');
                     }
                 }).catch((error) => {
-                        reject(error)
+                    if(error.response.data.error){
+                        ctx.commit('setInvalidCredentials', error.response.data.error)
+                    }else if(error.response.status === 422){
+                        ctx.commit('setErrors', error.response.data.errors);
+                    }
+                    /*reject(error)*/
                     })
         })
     },
@@ -69,6 +76,13 @@ const actions = {
 const mutations = {
     setLoggedIn(state, payload){
         state.isLoggedIn = payload
+    },
+    setErrors(state, payload){
+        state.errors = errors;
+    },
+    setInvalidCredentials(state, invalidCredentials)
+    {
+        state.invalidCredentials = invalidCredentials
     }
 }
 
@@ -78,6 +92,14 @@ const getters = {
     },
     userDetails(state){
         return state.userDetails
+    },
+    errors(state)
+    {
+        return state.errors
+    },
+    invalidCredentials(state)
+    {
+        return state.invalidCredentials
     }
 }
 

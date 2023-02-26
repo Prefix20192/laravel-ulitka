@@ -10,7 +10,10 @@
         </div>
 
         <div class="form-field">
-            <my-button class="btn" @click.native.prevent="login">Log in</my-button>
+            <my-button class="btn"  @click.native.prevent="login">Log in</my-button>
+        </div>
+        <div v-if="invalidCredentials">
+            <span style="color:red;">invalid Credentials</span>
         </div>
         <router-link to="/register"><p class="message">Not registered?</p> <a href="#">Create an account</a></router-link>
     </form>
@@ -18,6 +21,7 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 export default {
     name: "Login",
     data: () => ({
@@ -29,6 +33,14 @@ export default {
     created() {
       this.checkUserState()
     },
+
+    computed:{
+        ...mapGetters({
+            invalidCredentials: 'invalidCredentials',
+            validationErrors: 'errors'
+        })
+    },
+
     methods:{
         login() {
             console.log("STart login")
@@ -111,4 +123,5 @@ form .btn {
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
     font-size: 17px;
 }
+
 </style>

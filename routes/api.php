@@ -7,6 +7,7 @@ use App\Http\Controllers\RestApi\v1\CarConntroller;
 use App\Http\Controllers\RestApi\v1\CotegoryConntroller;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ForgotPasswordController;
+use App\Http\Controllers\Api\ResetPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,8 +26,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::resource('cars', CarConntroller::class);
-Route::resource('kind', CotegoryConntroller::class);
+//Route::resource('kind', CotegoryConntroller::class);
 
 Route::post('register', [AuthController::class, "register"]);
 Route::post('login', [AuthController::class, "login"]);
 Route::post('forgot-password', [ForgotPasswordController::class, "sendResetLinkEmail"]);
+Route::post('reset-password', [ResetPasswordController::class, "reset"]);

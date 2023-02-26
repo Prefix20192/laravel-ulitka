@@ -2137,6 +2137,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Login",
   data: function data() {
@@ -2150,6 +2158,10 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     this.checkUserState();
   },
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)({
+    invalidCredentials: 'invalidCredentials',
+    validationErrors: 'errors'
+  })),
   methods: {
     login: function login() {
       console.log("STart login");
@@ -2506,7 +2518,11 @@ var render = function render() {
         return _vm.login.apply(null, arguments);
       }
     }
-  }, [_vm._v("Log in")])], 1), _vm._v(" "), _c("router-link", {
+  }, [_vm._v("Log in")])], 1), _vm._v(" "), _vm.invalidCredentials ? _c("div", [_c("span", {
+    staticStyle: {
+      color: "red"
+    }
+  }, [_vm._v("invalid Credentials")])]) : _vm._e(), _vm._v(" "), _c("router-link", {
     attrs: {
       to: "/register"
     }
@@ -3187,7 +3203,9 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
 
 var state = {
   userDetails: {},
-  isLoggedIn: true
+  isLoggedIn: true,
+  errors: [],
+  invalidCredentials: ''
 };
 var actions = {
   registerUser: function registerUser(_ref, user) {
@@ -3221,7 +3239,12 @@ var actions = {
           window.location.replace('/dashboard');
         }
       })["catch"](function (error) {
-        reject(error);
+        if (error.response.data.error) {
+          ctx.commit('setInvalidCredentials', error.response.data.error);
+        } else if (error.response.status === 422) {
+          ctx.commit('setErrors', error.response.data.errors);
+        }
+        /*reject(error)*/
       });
     });
   },
@@ -3248,6 +3271,12 @@ var actions = {
 var mutations = {
   setLoggedIn: function setLoggedIn(state, payload) {
     state.isLoggedIn = payload;
+  },
+  setErrors: function setErrors(state, payload) {
+    state.errors = errors;
+  },
+  setInvalidCredentials: function setInvalidCredentials(state, invalidCredentials) {
+    state.invalidCredentials = invalidCredentials;
   }
 };
 var getters = {
@@ -3256,6 +3285,12 @@ var getters = {
   },
   userDetails: function userDetails(state) {
     return state.userDetails;
+  },
+  errors: function errors(state) {
+    return state.errors;
+  },
+  invalidCredentials: function invalidCredentials(state) {
+    return state.invalidCredentials;
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -3348,7 +3383,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.pages_login[data-v-be5ebcfe]{\n    font-family: 'Lato', sans-serif;\n    color: #4A4A4A;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    min-height: 100vh;\n    overflow: hidden;\n    margin: 0;\n    padding: 0;\n    box-shadow: #1a1e21;\n}\nform[data-v-be5ebcfe] {\n    width: 350px;\n    position: relative;\n}\nform .form-field[data-v-be5ebcfe]::before {\n    font-size: 20px;\n    position: absolute;\n    left: 15px;\n    top: 17px;\n    color: #888888;\n    content: \" \";\n    display: block;\n    background-size: cover;\n    background-repeat: no-repeat;\n}\nform .form-field[data-v-be5ebcfe] {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    margin-bottom: 1rem;\n    position: relative;\n}\nform input[data-v-be5ebcfe] {\n    font-family: inherit;\n    width: 100%;\n    outline: none;\n    background-color: #fff;\n    border-radius: 4px;\n    border: none;\n    display: block;\n    padding: 0.9rem 0.7rem;\n    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);\n    font-size: 17px;\n    color: #4A4A4A;\n    text-indent: 40px;\n}\nform .btn[data-v-be5ebcfe] {\n    outline: none;\n    border: none;\n    cursor: pointer;\n    display: inline-block;\n    margin: 0 auto;\n    padding: 0.9rem 2.5rem;\n    text-align: center;\n    background-color: #47AB11;\n    color: #fff;\n    border-radius: 4px;\n    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);\n    font-size: 17px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.pages_login[data-v-be5ebcfe]{\n    font-family: 'Lato', sans-serif;\n    color: #4A4A4A;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    min-height: 100vh;\n    overflow: hidden;\n    margin: 0;\n    padding: 0;\n    box-shadow: #1a1e21;\n}\nform[data-v-be5ebcfe] {\n    width: 350px;\n    position: relative;\n}\nform .form-field[data-v-be5ebcfe]::before {\n    font-size: 20px;\n    position: absolute;\n    left: 15px;\n    top: 17px;\n    color: #888888;\n    content: \" \";\n    display: block;\n    background-size: cover;\n    background-repeat: no-repeat;\n}\nform .form-field[data-v-be5ebcfe] {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    margin-bottom: 1rem;\n    position: relative;\n}\nform input[data-v-be5ebcfe] {\n    font-family: inherit;\n    width: 100%;\n    outline: none;\n    background-color: #fff;\n    border-radius: 4px;\n    border: none;\n    display: block;\n    padding: 0.9rem 0.7rem;\n    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);\n    font-size: 17px;\n    color: #4A4A4A;\n    text-indent: 40px;\n}\nform .btn[data-v-be5ebcfe] {\n    outline: none;\n    border: none;\n    cursor: pointer;\n    display: inline-block;\n    margin: 0 auto;\n    padding: 0.9rem 2.5rem;\n    text-align: center;\n    background-color: #47AB11;\n    color: #fff;\n    border-radius: 4px;\n    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);\n    font-size: 17px;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

@@ -45,8 +45,8 @@ class AuthController extends Controller
             return $tokenResponse;
         }else{
             return response()->json([
-               "message" => "Unauthenticated"
-            ]);
+               "error" => "Invalid credentials"
+            ], 401);
         }
 
     }
